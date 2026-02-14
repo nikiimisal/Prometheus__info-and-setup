@@ -312,9 +312,11 @@ You monitor everything from the dashboard.
 
 
 ---
+
 Prometheus is an open-source monitoring and alerting system that collects metrics from servers and applications through proper configuration and integration.<br>
 Its primary purpose is to provide visibility into system behavior via dashboards and alerts. <br>
 To use Prometheus effectively, one must understand how to configure exporters, instrument applications, and update the YAML configuration file correctly.
+
 ---
 
 ###  🎯 In Simple Words
