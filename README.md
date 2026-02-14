@@ -369,106 +369,182 @@ This project demonstrates how to set up:
 
 ---
 
-# 📌 Step 1: Launch EC2 Instance
-
-### Instance Configuration
-- Instance Type: `t3.micro`
-- Operating System: `Ubuntu 22.04 LTS`
-
-### Why?
-- `t3.micro` is free-tier eligible and sufficient for monitoring tools.
-- Ubuntu 22.04 LTS provides long-term support and stability.
+# 🚀 Installation of Prometheus + Node Exporter + Python App (With Explanation)
 
 ---
 
-# 📌 Step 2: Configure Security Group (Inbound Rules)
+## 🔹 Step 1: Launch EC2 Instance
 
-Open the following ports:
+### Why manually launch EC2?
 
-| Port | Purpose |
-|------|----------|
-| 22   | SSH |
-| 9090 | Prometheus |
-| 9100 | Node Exporter |
-| 5000 | Python App |
-| 3000 | Grafana (Optional) |
+For learning and real infrastructure understanding:
 
-Allow Source:
+- You understand networking
+- You understand security groups
+- You understand Linux setup
+- You understand real-world infrastructure
+
+### Instance Configuration
+
+| Setting | Value | Why |
+|----------|--------|------|
+| Instance Type | t3.micro | Free tier eligible |
+| OS | Ubuntu 22.04 LTS | Stable & widely used |
+| Name | prometheus | Easy identification |
+
+---
+
+## 🔹 Step 2: Configure Security Group (Very Important)
+
+### Open these ports:
+
+| Port | Purpose | Why Needed |
+|------|----------|------------|
+| 22 | SSH | Connect via terminal |
+| 9090 | Prometheus | Access Prometheus UI |
+| 9100 | Node Exporter | Server metrics |
+| 5000 | Python App | Application monitoring |
+| 3000 | Grafana | Dashboard (optional) |
+
+Allow source:
+
 ```
 0.0.0.0/0
 ```
 
-### Why?
-- Allows remote access to monitoring services.
-- Used for demo/testing purposes.
+👉 Public access for learning only  
+👉 In production, always restrict IP
 
 ---
 
-# 📌 Step 3: Connect to EC2
+## 🔹 Step 3: Connect to Server
 
-```bash
+```
 ssh -i your-key.pem ubuntu@your-public-ip
+```
+
+### Why?
+To access EC2 terminal remotely.
+
+Update system:
+
+```
 sudo apt update -y
 ```
 
 ### Why?
-- SSH connects securely to the server.
-- System update ensures latest security patches.
+To refresh package index before installing software.
 
 ---
 
-# 📌 Step 4: Install Prometheus
+## 🔹 Step 4: User Types (Security Concept)
 
-## Create User & Directories
+In Linux, 3 types of users exist:
 
-```bash
+1. Root user → Full access  
+2. Local user → Regular login  
+3. System user → For running services  
+
+👉 Prometheus should NOT run as root  
+👉 We create a dedicated system user for security
+
+---
+
+## 🔹 Step 5: Install Prometheus
+
+### Create Prometheus System User
+
+```
 sudo useradd --no-create-home --shell /bin/false prometheus
+```
+
+### Why?
+
+- No home directory
+- Cannot login
+- More secure
+- Used only to run service
+
+---
+
+### Create Required Directories
+
+```
 sudo mkdir /etc/prometheus
 sudo mkdir /var/lib/prometheus
+```
+
+| Directory | Purpose |
+|------------|----------|
+| /etc/prometheus | Configuration files |
+| /var/lib/prometheus | Time-series database storage |
+
+Prometheus stores monitoring data inside `/var/lib/prometheus`.
+
+---
+
+### Set Ownership
+
+```
 sudo chown prometheus:prometheus /var/lib/prometheus
 ```
 
 ### Why?
-- Dedicated user improves security.
-- Directories store configuration and time-series data.
+Prometheus must have write permission for storing metrics.
 
 ---
 
-## Download Prometheus
+### Download Prometheus
 
-```bash
+```
 cd /tmp
+
 wget https://github.com/prometheus/prometheus/releases/download/v2.53.1/prometheus-2.53.1.linux-amd64.tar.gz
+
 tar -xvf prometheus-2.53.1.linux-amd64.tar.gz
+
 cd prometheus-2.53.1.linux-amd64
 ```
 
+### Why download manually?
+
+- Understand binaries
+- Production-style installation
+- Avoid package manager dependency
+
 ---
 
-## Move Files
+### Move Required Files
 
-```bash
+```
 sudo mv prometheus /usr/local/bin/
 sudo mv promtool /usr/local/bin/
+
 sudo mv consoles /etc/prometheus
 sudo mv console_libraries /etc/prometheus
+
 sudo mv prometheus.yml /etc/prometheus
 ```
 
+### Why?
+
+- `/usr/local/bin` → Standard executable location
+- `/etc/prometheus` → Configuration directory
+
 ---
 
-## Set Permissions
+### Set Ownership
 
-```bash
+```
 sudo chown -R prometheus:prometheus /etc/prometheus
 sudo chown prometheus:prometheus /usr/local/bin/prometheus
 ```
 
 ---
 
-## Create Service File
+### Create Prometheus Service File
 
-```bash
+```
 sudo vim /etc/systemd/system/prometheus.service
 ```
 
@@ -494,11 +570,17 @@ ExecStart=/usr/local/bin/prometheus \
 WantedBy=multi-user.target
 ```
 
+### Why systemd?
+
+- Auto start on reboot
+- Manage service status
+- Production best practice
+
 ---
 
-## Start Prometheus
+### Start Prometheus
 
-```bash
+```
 sudo systemctl daemon-reload
 sudo systemctl start prometheus
 sudo systemctl enable prometheus
@@ -506,27 +588,49 @@ sudo systemctl status prometheus
 ```
 
 Access:
+
 ```
 http://YOUR_PUBLIC_IP:9090
 ```
 
 ---
 
-# 📌 Step 5: Install Node Exporter
+## 🔹 Step 6: Install Node Exporter
 
-```bash
+```
 cd /tmp
+
 wget https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz
+
 tar -xvf node_exporter-1.8.1.linux-amd64.tar.gz
+
 sudo mv node_exporter-1.8.1.linux-amd64/node_exporter /usr/local/bin/
+
 sudo useradd -rs /bin/false node_exporter
+```
+
+### Why Node Exporter?
+
+Prometheus cannot read OS metrics directly.
+
+Node Exporter collects:
+
+- CPU
+- Memory
+- Disk
+- Network
+
+Exposes metrics on:
+
+```
+http://IP:9100/metrics
 ```
 
 ---
 
-## Create Service
+### Create Node Exporter Service
 
-```bash
+```
 sudo vim /etc/systemd/system/node_exporter.service
 ```
 
@@ -549,31 +653,26 @@ WantedBy=multi-user.target
 
 ---
 
-## Start Node Exporter
+### Start Node Exporter
 
-```bash
+```
 sudo systemctl daemon-reload
 sudo systemctl start node_exporter
 sudo systemctl enable node_exporter
 sudo systemctl status node_exporter
 ```
 
-Verify:
-```
-http://YOUR_PUBLIC_IP:9100/metrics
-```
-
 ---
 
-# 📌 Step 6: Configure Prometheus
+## 🔹 Step 7: Configure Prometheus (Pull Model)
 
-Edit configuration:
+Edit:
 
-```bash
+```
 sudo vim /etc/prometheus/prometheus.yml
 ```
 
-Add:
+Add under `scrape_configs:`:
 
 ```
   - job_name: 'node_exporter'
@@ -581,33 +680,60 @@ Add:
       - targets: ['localhost:9100']
 ```
 
+### Why?
+
+Prometheus follows Pull Model.  
+We must define scrape targets manually.
+
 Restart:
-```bash
+
+```
 sudo systemctl restart prometheus
 ```
 
 ---
 
-# 📌 Step 7: Deploy Python Application
+## 🔹 Step 8: Deploy Python Application
 
-## Install Dependencies
+Install dependencies:
 
-```bash
+```
 sudo apt install python3-pip python3-venv -y
+```
+
+Create virtual environment:
+
+```
 python3 -m venv myenv
 source myenv/bin/activate
+```
+
+Install packages:
+
+```
 pip install flask prometheus_client
 ```
 
+### Why prometheus_client?
+
+It exposes `/metrics` endpoint for application monitoring.
+
 ---
 
-## Create `app.py`
+### Create Python App
+
+```
+vim app.py
+```
+
+Add:
 
 ```python
 from flask import Flask
 from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 
 app = Flask(__name__)
+
 REQUESTS = Counter('hello_world_total', 'Total Hello World Requests')
 
 @app.route('/')
@@ -625,24 +751,25 @@ if __name__ == '__main__':
 
 ---
 
-## Run Application
+### Run Application
 
-```bash
+```
 nohup python3 app.py > app.log 2>&1 &
 ```
 
 Test:
+
 ```
 http://YOUR_PUBLIC_IP:5000
 ```
 
 ---
 
-# 📌 Step 8: Add Python App to Prometheus
+## 🔹 Step 9: Add Python App to Prometheus
 
 Edit:
 
-```bash
+```
 sudo vim /etc/prometheus/prometheus.yml
 ```
 
@@ -656,29 +783,34 @@ Add:
 
 Restart:
 
-```bash
+```
 sudo systemctl restart prometheus
 ```
 
+Now Prometheus monitors:
+
+- Server metrics
+- Application metrics
+
 ---
 
-# 📌 Step 9: Verify Metrics
+## 🔹 Step 10: Verify Metrics
 
 Open:
+
 ```
 http://YOUR_PUBLIC_IP:9090
 ```
 
 Search:
+
 ```
 hello_world_total
 ```
 
----
+You should see increasing values.
 
-# 📌 Step 10: CPU Usage Query
-
-Run this in Prometheus:
+To calculate CPU usage:
 
 ```
 100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
@@ -686,18 +818,22 @@ Run this in Prometheus:
 
 ---
 
-# ✅ Result
+# 🔥 What You Built
 
-- Prometheus collecting system metrics
-- Node Exporter monitoring server
-- Python app exposing custom metrics
-- CPU usage visualization available
+You created a complete monitoring architecture:
 
----
+EC2  
+↳ Prometheus  
+↳ Node Exporter (Server Monitoring)  
+↳ Python App (Application Monitoring)
 
+This demonstrates:
 
-
-
+- Pull-based monitoring
+- Secure system users
+- systemd service management
+- Application instrumentation
+- Production-style installation
 
 
 
