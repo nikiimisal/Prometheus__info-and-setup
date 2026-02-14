@@ -369,7 +369,7 @@ This project demonstrates how to set up:
 
 ---
 
-# 🚀 Installation of Prometheus + Node Exporter + Python App (With Explanation)
+# 🚀 Installation of Prometheus + Node Exporter + Python App 
 
 ---
 
@@ -394,7 +394,7 @@ For learning and real infrastructure understanding:
 
 ---
 
-## 🔹 Step 2: Configure Security Group (Very Important)
+## 🔹 Step 2: Configure Security Group (Important)
 
 ### Open these ports:
 
@@ -421,6 +421,8 @@ Allow source:
 
 ```
 ssh -i your-key.pem ubuntu@your-public-ip
+sudo hostnamectl hostname Prometheus
+exit
 ```
 
 ### Why?
@@ -593,6 +595,18 @@ Access:
 http://YOUR_PUBLIC_IP:9090
 ```
 
+
+---
+---
+
+
+>The above steps were focused on monitoring the server infrastructure.
+>From this point onward, we will configure application-level monitoring.
+>Follow the steps below to instrument and monitor the application.
+
+
+
+---
 ---
 
 ## 🔹 Step 6: Install Node Exporter
@@ -663,6 +677,15 @@ sudo systemctl status node_exporter
 ```
 
 ---
+---
+
+>We have installed Node Exporter, but Prometheus is not yet scraping its metrics.
+>If Node Exporter is not integrated with Prometheus, no node-related metrics will appear in the metrics section.
+>Now we need to integrate Node Exporter with Prometheus.
+>This integration is required so that Prometheus can pull server-level metrics such as CPU, memory, disk, and network usage.
+
+---
+---
 
 ## 🔹 Step 7: Configure Prometheus (Pull Model)
 
@@ -691,6 +714,13 @@ Restart:
 sudo systemctl restart prometheus
 ```
 
+---
+---
+
+>With server monitoring configured, we will now deploy the Python application as the final step to enable application-level monitoring.
+
+
+---
 ---
 
 ## 🔹 Step 8: Deploy Python Application
