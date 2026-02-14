@@ -264,21 +264,21 @@ You sit and observe dashboards — Prometheus continuously monitors everything.
 
 ##  9️⃣ Advantages
 
-✔ Multi-cloud support
-✔ Open-source
-✔ Powerful querying (PromQL)
-✔ Strong Kubernetes support
-✔ Highly scalable
+✔ Multi-cloud support<br>
+✔ Open-source<br>
+✔ Powerful querying (PromQL)<br>
+✔ Strong Kubernetes support<br>
+✔ Highly scalable<br>
 ✔ Custom alerting
 
 ---
 
 ##  🔟 Limitations
 
-❌ Needs manual setup
-❌ Not a log monitoring tool
-❌ Local storage by default
-❌ Requires configuration knowledge
+❌ Needs manual setup<br>
+❌ Not a log monitoring tool<br>
+❌ Local storage by default<br>
+❌ Requires configuration knowledge<br>
 
 ---
 
