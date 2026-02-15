@@ -1,6 +1,11 @@
 <h1 align="center">Prometheus</h1>
 
 
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/promo.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
 ##  1️⃣ Prometheus
 
 Prometheus is an open-source systems monitoring and alerting toolkit originally developed at SoundCloud in 2012. It provides a powerful time-series database optimized for storing metrics and enables flexible, multi-dimensional data collection and analysis. Prometheus has become a cornerstone of cloud-native observability, widely used in conjunction with container orchestration platforms like Kubernetes.
@@ -358,6 +363,34 @@ So yes, the real skill in Prometheus is:
 ---
 ---
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 🚀 Prometheus Monitoring Setup with Node Exporter and Python App
 
 This project demonstrates how to set up:
@@ -415,6 +448,13 @@ Allow source:
 👉 Public access for learning only  
 👉 In production, always restrict IP
 
+
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-14%20225938.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
 ---
 
 ## 🔹 Step 3: Connect to Server
@@ -436,6 +476,21 @@ sudo apt update -y
 
 ### Why?
 To refresh package index before installing software.
+
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20082554.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20082618.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
 
 ---
 
@@ -494,6 +549,21 @@ sudo chown prometheus:prometheus /var/lib/prometheus
 ### Why?
 Prometheus must have write permission for storing metrics.
 
+
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20082707.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
+
+
 ---
 
 ### Download Prometheus
@@ -514,6 +584,19 @@ cd prometheus-2.53.1.linux-amd64
 - Production-style installation
 - Avoid package manager dependency
 
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20082732.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
+
 ---
 
 ### Move Required Files
@@ -533,6 +616,21 @@ sudo mv prometheus.yml /etc/prometheus
 - `/usr/local/bin` → Standard executable location
 - `/etc/prometheus` → Configuration directory
 
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20082759.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
+
+
+
 ---
 
 ### Set Ownership
@@ -541,6 +639,19 @@ sudo mv prometheus.yml /etc/prometheus
 sudo chown -R prometheus:prometheus /etc/prometheus
 sudo chown prometheus:prometheus /usr/local/bin/prometheus
 ```
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20082855.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
+
 
 ---
 
@@ -595,6 +706,21 @@ Access:
 http://YOUR_PUBLIC_IP:9090
 ```
 
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20082955.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-14%20231910.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
 
 ---
 ---
@@ -640,6 +766,19 @@ Exposes metrics on:
 http://IP:9100/metrics
 ```
 
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20083035.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
+
+
 ---
 
 ### Create Node Exporter Service
@@ -675,6 +814,25 @@ sudo systemctl start node_exporter
 sudo systemctl enable node_exporter
 sudo systemctl status node_exporter
 ```
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20083215.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 ---
@@ -714,6 +872,25 @@ Restart:
 sudo systemctl restart prometheus
 ```
 
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20083309.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+- Node exporter Web page :  <public ip:9100>
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-14%20233556.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
+
 ---
 ---
 
@@ -731,6 +908,11 @@ Install dependencies:
 sudo apt install python3-pip python3-venv -y
 ```
 
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20083327.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
 Create virtual environment:
 
 ```
@@ -747,6 +929,15 @@ pip install flask prometheus_client
 ### Why prometheus_client?
 
 It exposes `/metrics` endpoint for application monitoring.
+
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20083537.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
 
 ---
 
@@ -793,6 +984,18 @@ Test:
 http://YOUR_PUBLIC_IP:5000
 ```
 
+
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-15%20083653.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-14%20235134.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
 ---
 
 ## 🔹 Step 9: Add Python App to Prometheus
@@ -838,6 +1041,14 @@ Search:
 hello_world_total
 ```
 
+
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/Screenshot%202026-02-14%20235837.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
 You should see increasing values.
 
 To calculate CPU usage:
@@ -867,7 +1078,10 @@ This demonstrates:
 
 
 
-
+---
+---
+---
+---
 
 
 
