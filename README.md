@@ -1,9 +1,29 @@
 <h1 align="center">Prometheus</h1>
 
 
+---
+
+- [About Prometheus](#example-0)
+- [Conclusion- Quick Flow](#example-1)
+- [Prometheus Monitoring Setup with Node Exporter and Python App](#example-2)
+
+
+
+
+
+---
+
+
+
 <p align="center">
   <img src="https://github.com/nikiimisal/Prometheus__info-and-setup/blob/main/img/promo.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
+
+
+
+<a id="example-0"></a>
+
+
 
 
 ##  1️⃣ Prometheus
@@ -298,6 +318,14 @@ You sit and observe dashboards — Prometheus continuously monitors everything.
 ---
 
 
+
+
+<a id="example-1"></a>
+
+
+
+
+
 ##  ✅ Conclusion
 
 Prometheus is mainly a monitoring tool whose core purpose is:
@@ -385,7 +413,7 @@ So yes, the real skill in Prometheus is:
 
 
 
-
+<a id="example-2"></a>
 
 
 
